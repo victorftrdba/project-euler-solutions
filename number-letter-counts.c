@@ -7,6 +7,8 @@ char *ten_to_twenty[100] = {"eleven", "twelve", "thirteen", "fourteen", "fifteen
 
 char *tens[100] = {"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
+char *hundreds[100] = {"one hundred", "two hundred", "three hundred", "four hundred", "five hundred", "six hundred", "seven hundred", "eight hundred", "nine hundred"};
+
 int main()
 {
     for (int i = 0; i < 1000; i++)
@@ -24,6 +26,29 @@ int main()
             if ((i % 10) != NULL)
             {
                 printf("%s %s \n", tens[(i / 10) - 2], ones[(i % 10 - 1)]);
+            }
+            else
+            {
+                printf("%s \n", tens[(i / 10) - 2]);
+            }
+        }
+        else
+        {
+            if (tens[(((i % 100) - (i % 10)) / 10) - 2] == NULL && ones[(i % 10) - 1] == NULL)
+            {
+                printf("%s \n", hundreds[(i / 100) - 1]);
+            }
+            else if (tens[(((i % 100) - (i % 10)) / 10) - 2] == NULL && ones[(i % 10) - 1] != NULL)
+            {
+                printf("%s and %s \n", hundreds[(i / 100) - 1], ones[(i % 10) - 1]);
+            }
+            else if (ones[(i % 10) - 1] == NULL)
+            {
+                printf("%s and %s \n", hundreds[(i / 100) - 1], tens[(((i % 100) - (i % 10)) / 10) - 2]);
+            }
+            else
+            {
+                printf("%s and %s %s \n", hundreds[(i / 100) - 1], tens[(((i % 100) - (i % 10)) / 10) - 2], ones[(i % 10) - 1]);
             }
         }
     }
