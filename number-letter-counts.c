@@ -1,58 +1,54 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-char *ones[100] = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+#define HUNDRED_AND 10
+#define HUNDRED 7
+#define ONE_THOUSAND 11
 
-char *ten_to_twenty[100] = {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+char *first[10] = {"", "one", "two", "three", "four", "five",
+                   "six", "seven", "eight", "nine"};
+char *teens[10] = {"ten", "eleven", "twelve", "thirteen", "fourteen",
+                   "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+char *tens[10] = {"", "ten", "twenty", "thirty", "forty", "fifty",
+                  "sixty", "seventy", "eighty", "ninety"};
 
-char *tens[100] = {"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
-
-char *hundreds[100] = {"one hundred", "two hundred", "three hundred", "four hundred", "five hundred", "six hundred", "seven hundred", "eight hundred", "nine hundred"};
-
-int main()
+int get_letters_int(int x)
 {
+    if (x < 10)
+        return strlen(first[x]);
+    else if (x < 20)
+        return strlen(teens[x % 10]);
+    else if (x % 10)
+        return strlen(tens[x / 10]) + strlen(first[x % 10]);
+    else
+        return strlen(tens[x / 10]);
+}
+
+int main(void)
+{
+    long sum = 0;
+
     for (int i = 0; i < 1000; i++)
     {
-        if (i < 10)
+        if (i < 100)
         {
-            printf("%s \n", ones[i]);
+            sum += get_letters_int(i);
         }
-        else if (i > 10 && i < 20)
+        else if (i < 1000)
         {
-            printf("%s \n", ten_to_twenty[i - 11]);
-        }
-        else if (i > 19 && i < 100)
-        {
-            if (i % 10 != NULL)
+            if (i % 100)
             {
-                printf("%s %s \n", tens[(i / 10) - 2], ones[(i % 10 - 1)]);
+                sum += strlen(first[i / 100]) + HUNDRED_AND + get_letters_int(i % 100);
             }
             else
             {
-                printf("%s \n", tens[(i / 10) - 2]);
+                sum += strlen(first[i / 100]) + HUNDRED;
             }
         }
         else
         {
-            int getIndexBySubtractingTheRest = (((i % 100) - (i % 10)) / 10) - 2;
-            int getIndexByHundredDivision = (i / 100) - 1;
-
-            if (tens[getIndexBySubtractingTheRest] == NULL && ones[(i % 10) - 1] == NULL)
-            {
-                printf("%s \n", hundreds[getIndexByHundredDivision]);
-            }
-            else if (tens[getIndexBySubtractingTheRest] == NULL && ones[(i % 10) - 1] != NULL)
-            {
-                printf("%s and %s \n", hundreds[getIndexByHundredDivision], ones[(i % 10) - 1]);
-            }
-            else if (ones[(i % 10) - 1] == NULL)
-            {
-                printf("%s and %s \n", hundreds[getIndexByHundredDivision], tens[getIndexBySubtractingTheRest]);
-            }
-            else
-            {
-                printf("%s and %s %s \n", hundreds[getIndexByHundredDivision], tens[getIndexBySubtractingTheRest], ones[(i % 10) - 1]);
-            }
+            sum += ONE_THOUSAND;
         }
     }
+    printf("Result: %ld\n", sum);
 }
