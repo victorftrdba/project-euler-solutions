@@ -28,7 +28,7 @@ int main(void)
 {
     long sum = 0;
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 1; i < 1001; i++)
     {
         if (i < 100)
         {
